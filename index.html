@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeopleView</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0c0e;
+  --surface: #161618;
+  --surface2: #1e1e22;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #f0ede8;
+  --muted: #6e6c68;
+  --accent: #ff5c2b;
+  --accent2: #ff8c5a;
+  --green: #2dce89;
+  --blue: #4da6ff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+.app{max-width:540px;margin:0 auto;padding:2rem 1.25rem 5rem}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;margin-bottom:2.5rem;display:flex;align-items:center;gap:8px}
+.logo-dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+/* SCREENS */
+.screen{display:none;animation:fadeUp .25s ease}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* TYPOGRAPHY */
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,12vw,4.5rem);line-height:.92;letter-spacing:-.01em;margin-bottom:1rem}
+.page-title span{color:var(--accent)}
+.page-sub{font-size:.95rem;color:#8a8780;line-height:1.7;margin-bottom:2rem;max-width:400px}
+
+/* API BLOCK */
+.api-block{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem}
+.field-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.api-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;font-family:monospace;color:var(--text);outline:none;transition:border-color .15s}
+.api-input:focus{border-color:var(--accent)}
+.api-note{font-size:11px;color:var(--muted);margin-top:7px}
+.api-note a{color:var(--accent2);text-decoration:none}
+
+/* FORM */
+.field{margin-bottom:1rem}
+.field input,.field textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:inherit;color:var(--text);outline:none;transition:border-color .15s}
+.field input:focus,.field textarea:focus{border-color:var(--accent)}
+.field textarea{resize:none;height:70px;line-height:1.5}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.slider-wrap{margin-bottom:1rem}
+.slider-row{display:flex;align-items:center;gap:10px}
+.slider-end{font-size:11px;color:var(--muted);white-space:nowrap}
+input[type=range]{flex:1;-webkit-appearance:none;height:3px;background:var(--surface2);border-radius:2px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:5px 13px;border-radius:20px;border:1px solid var(--border2);font-size:12px;cursor:pointer;color:var(--muted);transition:all .15s;user-select:none}
+.chip:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+.chip.on{background:rgba(255,92,43,.15);border-color:rgba(255,92,43,.4);color:var(--accent)}
+
+/* BUTTONS */
+.btn{padding:10px 20px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;border:none;font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-primary:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2)}
+.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+.btn-full{width:100%;justify-content:center;padding:13px;font-size:15px}
+.btn-row{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem}
+
+/* MY AGENT BANNER */
+.my-agent-banner{background:var(--surface);border:1px solid rgba(255,92,43,.25);border-radius:12px;padding:14px 16px;margin-bottom:1.5rem;display:flex;align-items:center;gap:12px}
+.my-agent-ava{width:44px;height:44px;border-radius:11px;background:rgba(255,92,43,.12);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:600;flex-shrink:0}
+.my-agent-name{font-size:14px;font-weight:600}
+.my-agent-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.my-agent-tag{font-size:10px;color:var(--accent);background:rgba(255,92,43,.1);padding:2px 8px;border-radius:10px;margin-left:auto;white-space:nowrap}
+
+/* SECTION LABEL */
+.section-label{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+
+/* AGENT LIST */
+.agent-list{display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
+.agent-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:13px}
+.agent-card:hover{border-color:var(--border2);background:var(--surface2)}
+.agent-card.selected{border-color:rgba(77,166,255,.5);background:rgba(77,166,255,.05)}
+.agent-card-ava{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:600;flex-shrink:0}
+.agent-card-info{flex:1;min-width:0}
+.agent-card-name{font-size:14px;font-weight:500}
+.agent-card-sub{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.agent-card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.tag{font-size:10px;padding:2px 7px;border-radius:8px;background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.check-circle{width:22px;height:22px;border-radius:50%;border:1px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.agent-card.selected .check-circle{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* TOPIC */
+.topic-header{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+.topic-ava{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;flex-shrink:0}
+.topic-vs{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--muted);flex-shrink:0}
+.topic-names{font-size:13px;font-weight:500}
+.topic-textarea{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;font-size:15px;font-family:inherit;color:var(--text);outline:none;resize:none;height:88px;line-height:1.55;transition:border-color .15s}
+.topic-textarea:focus{border-color:var(--accent)}
+.examples{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ex{padding:5px 11px;border-radius:6px;background:var(--surface2);font-size:11px;color:var(--muted);cursor:pointer;border:1px solid var(--border);transition:all .15s}
+.ex:hover{color:var(--accent2);border-color:rgba(255,140,90,.3)}
+
+/* LOADING */
+.debate-loading{text-align:center;padding:3.5rem 1rem}
+.pulse-ring{width:60px;height:60px;border-radius:50%;border:1.5px solid rgba(255,92,43,.3);margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;animation:pulse 1.4s ease infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1);opacity:.6}}
+.pulse-inner{width:40px;height:40px;border-radius:50%;background:rgba(255,92,43,.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.loading-title{font-size:1.1rem;font-weight:500;margin-bottom:.4rem}
+.loading-sub{font-size:13px;color:var(--muted)}
+.turn-track{display:flex;gap:6px;justify-content:center;margin-top:1.5rem}
+.td{width:28px;height:4px;border-radius:2px;background:var(--surface2);transition:all .3s}
+.td.done{background:var(--green)}
+.td.active{background:var(--accent);animation:blink .8s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* DEBATE RESULT */
+.debate-participants{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+.debate-topic-label{font-size:11px;color:var(--muted)}
+.debate-topic-text{font-size:14px;font-weight:500;margin-top:3px}
+.messages{display:flex;flex-direction:column;gap:12px;margin-bottom:1.25rem}
+.msg{display:flex;gap:9px;align-items:flex-start;animation:msgIn .35s ease both}
+@keyframes msgIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.msg.right{flex-direction:row-reverse}
+.msg-ava{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:2px}
+.msg-inner{max-width:82%}
+.msg-name{font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:500}
+.msg.right .msg-name{text-align:right}
+.msg-bubble{padding:10px 13px;border-radius:11px;font-size:13px;line-height:1.65}
+.msg.left .msg-bubble{background:var(--surface);border:1px solid var(--border);border-radius:4px 11px 11px 11px;color:#d5d2cc}
+.msg.right .msg-bubble{background:rgba(77,166,255,.09);border:1px solid rgba(77,166,255,.2);border-radius:11px 4px 11px 11px;color:#c8dcf5}
+.synthesis{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:15px 17px}
+.synth-label{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.synth-text{font-size:13px;line-height:1.7;color:#aaa8a3}
+.result-actions{display:flex;gap:8px;margin-top:1.25rem}
+
+/* ERR */
+.err{background:rgba(255,92,43,.08);border:1px solid rgba(255,92,43,.2);border-radius:8px;padding:11px 14px;font-size:13px;color:#ff8c6a;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="logo"><div class="logo-dot"></div>PEOPLEVIEW</div>
+
+  <!-- SCREEN: HOME -->
+  <div class="screen active" id="s-home">
+    <div class="page-title">Débats<br>entre <span>agents</span><br>réels.</div>
+    <div class="page-sub">Crée ton agent IA en répondant à quelques questions. Puis choisis un agent existant et lance un débat sur n'importe quel sujet.</div>
+    <button class="btn btn-primary btn-full" onclick="goTo('s-create')">Créer mon agent →</button>
+  </div>
+
+  <!-- SCREEN: CREATE AGENT -->
+  <div class="screen" id="s-create">
+    <div style="margin-bottom:1.5rem">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px">Étape 1 sur 2</div>
+      <div style="font-size:1.3rem;font-weight:600">Crée ton agent</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px">Sois honnête — c'est ça qui rend le débat authentique.</div>
+    </div>
+
+    <div class="field-row">
+      <div class="field"><label class="field-label">Prénom</label><input id="f-name" placeholder="Sophie"></div>
+      <div class="field"><label class="field-label">Âge</label><input id="f-age" type="number" placeholder="28"></div>
+    </div>
+    <div class="field"><label class="field-label">Ville</label><input id="f-city" placeholder="Paris"></div>
+    <div class="field"><label class="field-label">Passion / expertise principale</label><input id="f-passion" placeholder="Design, Investissement, Cuisine…"></div>
+
+    <div class="slider-wrap">
+      <label class="field-label">Prise de décision</label>
+      <div class="slider-row">
+        <span class="slider-end">Instinct</span>
+        <input type="range" id="f-decision" min="1" max="10" value="5">
+        <span class="slider-end">Analyse</span>
+      </div>
+    </div>
+    <div class="slider-wrap">
+      <label class="field-label">Rapport au risque</label>
+      <div class="slider-row">
+        <span class="slider-end">Prudent</span>
+        <input type="range" id="f-risk" min="1" max="10" value="5">
+        <span class="slider-end">Audacieux</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Style de communication (1-2 max)</label>
+      <div class="chips" id="chips">
+        <span class="chip" onclick="toggleChip(this)">Direct</span>
+        <span class="chip" onclick="toggleChip(this)">Diplomate</span>
+        <span class="chip" onclick="toggleChip(this)">Provocateur</span>
+        <span class="chip" onclick="toggleChip(this)">Empathique</span>
+        <span class="chip" onclick="toggleChip(this)">Analytique</span>
+        <span class="chip" onclick="toggleChip(this)">Sarcastique</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Ta vision du monde en une phrase</label>
+      <textarea id="f-vision" placeholder="Ce en quoi tu crois vraiment, sans filtre…"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goTo('s-home')">← Retour</button>
+      <button class="btn btn-primary" onclick="submitMyAgent()">Choisir un adversaire →</button>
+    </div>
+    <div id="create-err"></div>
+  </div>
+
+  <!-- SCREEN: PICK OPPONENT -->
+  <div class="screen" id="s-pick">
+    <div style="margin-bottom:1.5rem">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px">Étape 2 sur 2</div>
+      <div style="font-size:1.3rem;font-weight:600">Choisis ton adversaire</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px">Sélectionne l'agent avec qui tu veux débattre.</div>
+    </div>
+
+    <div class="my-agent-banner" id="my-agent-banner"></div>
+
+    <div class="section-label">Agents disponibles</div>
+    <div class="agent-list" id="agent-list"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goTo('s-create')">← Modifier mon profil</button>
+      <button class="btn btn-primary" id="btn-pick" onclick="goToTopic()" disabled>Choisir le sujet →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN: TOPIC -->
+  <div class="screen" id="s-topic">
+    <div style="margin-bottom:1.5rem">
+      <div style="font-size:1.3rem;font-weight:600">Quel sujet ?</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px">Une question, une idée, une opinion — n'importe quoi.</div>
+    </div>
+    <div id="topic-matchup"></div>
+    <textarea class="topic-textarea" id="topic-input" placeholder="ex: Faut-il quitter son CDI pour lancer sa startup ?"></textarea>
+    <div class="examples">
+      <span class="ex" onclick="setTopic('Faut-il quitter son CDI pour lancer sa startup ?')">Quitter son CDI</span>
+      <span class="ex" onclick="setTopic('L\'IA va-t-elle remplacer les créatifs ?')">IA et créativité</span>
+      <span class="ex" onclick="setTopic('Vaut-il mieux être riche ou libre ?')">Riche ou libre</span>
+      <span class="ex" onclick="setTopic('Faut-il vivre à Paris ou quitter la capitale ?')">Paris ou province</span>
+      <span class="ex" onclick="setTopic('Les réseaux sociaux font-ils plus de mal que de bien ?')">Réseaux sociaux</span>
+      <span class="ex" onclick="setTopic('Vaut-il mieux acheter ou louer sa résidence principale ?')">Acheter vs louer</span>
+    </div>
+    <div class="btn-row" style="margin-top:1.25rem">
+      <button class="btn btn-ghost" onclick="goTo('s-pick')">← Retour</button>
+      <button class="btn btn-primary" onclick="launchDebate()">Lancer le débat ⚡</button>
+    </div>
+    <div id="topic-err"></div>
+  </div>
+
+  <!-- SCREEN: LOADING -->
+  <div class="screen" id="s-loading">
+    <div class="debate-loading">
+      <div class="pulse-ring"><div class="pulse-inner">⚡</div></div>
+      <div class="loading-title">Débat en cours…</div>
+      <div class="loading-sub" id="loading-msg">Les agents prennent position</div>
+      <div class="turn-track" id="turn-track"></div>
+    </div>
+  </div>
+
+  <!-- SCREEN: RESULT -->
+  <div class="screen" id="s-result">
+    <div id="result-header"></div>
+    <div class="messages" id="messages"></div>
+    <div class="synthesis" id="synthesis"></div>
+    <div class="result-actions">
+      <button class="btn btn-ghost" onclick="goTo('s-topic')">Nouveau sujet</button>
+      <button class="btn btn-ghost" onclick="goTo('s-pick')">Changer d'agent</button>
+      <button class="btn btn-primary" onclick="fullRestart()">Rejouer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let apiKey = '';
+let myAgent = null;
+let selectedAgent = null;
+let currentTopic = '';
+
+const SEED_AGENTS = [
+  {
+    id:'seed1', name:'Thomas D.', age:34, city:'Lyon', passion:'Entrepreneuriat',
+    decision:8, risk:9, comm:['Direct','Provocateur'],
+    vision:"Le confort est l'ennemi du progrès. Si tu n'es pas mal à l'aise, tu n'avances pas.",
+    color:{bg:'rgba(45,206,137,.1)',text:'#2dce89'}
+  },
+  {
+    id:'seed2', name:'Camille R.', age:29, city:'Paris', passion:'Design UX',
+    decision:5, risk:4, comm:['Empathique','Diplomatique'],
+    vision:"Les meilleures décisions se prennent quand on comprend vraiment les gens qui les vivent.",
+    color:{bg:'rgba(77,166,255,.1)',text:'#4da6ff'}
+  },
+  {
+    id:'seed3', name:'Alex M.', age:41, city:'Bordeaux', passion:'Finance & investissement',
+    decision:9, risk:6, comm:['Analytique','Direct'],
+    vision:"Les données ne mentent pas. Tout le reste, c'est du bruit.",
+    color:{bg:'rgba(255,200,80,.1)',text:'#ffc850'}
+  },
+  {
+    id:'seed4', name:'Inès B.', age:26, city:'Marseille', passion:'Créativité & art',
+    decision:3, risk:7, comm:['Sarcastique','Direct'],
+    vision:"Le monde récompense les originaux. Copier c'est choisir la médiocrité.",
+    color:{bg:'rgba(255,100,200,.1)',text:'#ff64c8'}
+  },
+  {
+    id:'seed5', name:'Karim T.', age:38, city:'Nantes', passion:'Tech & IA',
+    decision:7, risk:8, comm:['Analytique','Provocateur'],
+    vision:"On surestime ce que l'IA fera en 1 an et on sous-estime ce qu'elle fera en 10 ans.",
+    color:{bg:'rgba(160,100,255,.1)',text:'#a064ff'}
+  },
+];
+
+function getInitials(name) {
+  return name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+}
+
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function toggleChip(el) {
+  const chips = document.querySelectorAll('#chips .chip.on');
+  if (!el.classList.contains('on') && chips.length >= 2) return;
+  el.classList.toggle('on');
+}
+
+function submitMyAgent() {
+  const name = document.getElementById('f-name').value.trim();
+  const age = document.getElementById('f-age').value;
+  const city = document.getElementById('f-city').value.trim();
+  const passion = document.getElementById('f-passion').value.trim();
+  const decision = parseInt(document.getElementById('f-decision').value);
+  const risk = parseInt(document.getElementById('f-risk').value);
+  const comm = [...document.querySelectorAll('#chips .chip.on')].map(c=>c.textContent);
+  const vision = document.getElementById('f-vision').value.trim();
+
+  if (!name||!age||!city||!passion||!vision||comm.length===0) {
+    document.getElementById('create-err').innerHTML='<div class="err">Remplis tous les champs et sélectionne au moins un style de communication.</div>';
+    return;
+  }
+  document.getElementById('create-err').innerHTML='';
+
+  myAgent = { id:'me', name, age:parseInt(age), city, passion, decision, risk, comm, vision,
+    color:{bg:'rgba(255,92,43,.12)',text:'#ff5c2b'} };
+
+  renderPickScreen();
+  goTo('s-pick');
+}
+
+function renderPickScreen() {
+  const a = myAgent;
+  document.getElementById('my-agent-banner').innerHTML = `
+    <div class="my-agent-ava">${getInitials(a.name)}</div>
+    <div>
+      <div class="my-agent-name">${a.name}</div>
+      <div class="my-agent-sub">${a.age} ans · ${a.city} · ${a.passion}</div>
+    </div>
+    <div class="my-agent-tag">Mon agent</div>`;
+
+  const list = document.getElementById('agent-list');
+  list.innerHTML = SEED_AGENTS.map(ag => `
+    <div class="agent-card" id="card-${ag.id}" onclick="selectAgent('${ag.id}')">
+      <div class="agent-card-ava" style="background:${ag.color.bg};color:${ag.color.text}">${getInitials(ag.name)}</div>
+      <div class="agent-card-info">
+        <div class="agent-card-name">${ag.name}</div>
+        <div class="agent-card-sub">${ag.age} ans · ${ag.city} · ${ag.passion}</div>
+        <div class="agent-card-tags">
+          ${ag.comm.map(c=>`<span class="tag">${c}</span>`).join('')}
+          <span class="tag">${ag.risk>=7?'Audacieux':ag.risk<=3?'Prudent':'Modéré'}</span>
+        </div>
+      </div>
+      <div class="check-circle" id="check-${ag.id}">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>`).join('');
+}
+
+function selectAgent(id) {
+  document.querySelectorAll('.agent-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById(`card-${id}`).classList.add('selected');
+  selectedAgent = SEED_AGENTS.find(a=>a.id===id);
+  document.getElementById('btn-pick').disabled = false;
+}
+
+function goToTopic() {
+  if (!selectedAgent) return;
+  const a1 = myAgent, a2 = selectedAgent;
+  document.getElementById('topic-matchup').innerHTML = `
+    <div class="topic-header">
+      <div class="topic-ava" style="background:${a1.color.bg};color:${a1.color.text}">${getInitials(a1.name)}</div>
+      <div style="flex:1">
+        <div class="topic-names">${a1.name}</div>
+        <div style="font-size:11px;color:var(--muted)">${a1.passion}</div>
+      </div>
+      <div class="topic-vs">VS</div>
+      <div style="flex:1;text-align:right">
+        <div class="topic-names">${a2.name}</div>
+        <div style="font-size:11px;color:var(--muted)">${a2.passion}</div>
+      </div>
+      <div class="topic-ava" style="background:${a2.color.bg};color:${a2.color.text}">${getInitials(a2.name)}</div>
+    </div>`;
+  goTo('s-topic');
+}
+
+function setTopic(t) { document.getElementById('topic-input').value = t; }
+
+function buildSystem(agent) {
+  const dLabel = agent.decision<=3?'très intuitif':agent.decision<=6?'mi-intuitif mi-analytique':'très analytique';
+  const rLabel = agent.risk<=3?'très prudent et conservateur':agent.risk<=6?'modéré dans ta prise de risque':'audacieux, tu aimes les paris';
+  return `Tu es ${agent.name}, ${agent.age} ans, basé(e) à ${agent.city}.
+Passion/expertise : ${agent.passion}.
+Style de décision : ${dLabel}.
+Rapport au risque : ${rLabel}.
+Style de communication : ${agent.comm.join(', ')}.
+Vision du monde : "${agent.vision}"
+Débats en restant dans ce personnage. 3-4 phrases max par tour. Sois direct, opinionné, authentique. Pas de formules d'introduction génériques comme "Bien sûr" ou "C'est une bonne question".`;
+}
+
+async function callClaude(system, messages) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,system,messages})
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.content[0].text.trim();
+}
+
+async function launchDebate() {
+  const topic = document.getElementById('topic-input').value.trim();
+  if (!topic) {
+    document.getElementById('topic-err').innerHTML='<div class="err">Saisis un sujet de débat.</div>';
+    return;
+  }
+  document.getElementById('topic-err').innerHTML='';
+  currentTopic = topic;
+
+  goTo('s-loading');
+  const track = document.getElementById('turn-track');
+  track.innerHTML = [0,1,2,3,4,5].map(i=>`<div class="td" id="td-${i}"></div>`).join('');
+
+  const loadMsgs = [
+    `${myAgent.name} prend position…`,
+    `${selectedAgent.name} réplique…`,
+    `${myAgent.name} contre-attaque…`,
+    `${selectedAgent.name} insiste…`,
+    `${myAgent.name} conclut…`,
+    `${selectedAgent.name} a le dernier mot…`,
+  ];
+
+  const a1sys = buildSystem(myAgent);
+  const a2sys = buildSystem(selectedAgent);
+  const turns = [];
+
+  try {
+    for (let i=0; i<6; i++) {
+      document.getElementById(`td-${i}`).className='td active';
+      document.getElementById('loading-msg').textContent = loadMsgs[i];
+
+      const isMe = i%2===0;
+      const system = isMe ? a1sys : a2sys;
+      const speaker = isMe ? myAgent : selectedAgent;
+      const other = isMe ? selectedAgent : myAgent;
+
+      let userMsg;
+      if (i===0) {
+        userMsg = `Sujet : "${topic}". Donne ta position en 3-4 phrases.`;
+      } else {
+        userMsg = `${other.name} vient de dire : "${turns[turns.length-1].text}"\nRéponds-lui directement en restant dans ton personnage.`;
+      }
+
+      const reply = await callClaude(system, [{role:'user',content:userMsg}]);
+      turns.push({speaker:speaker.name, text:reply, isMe});
+      document.getElementById(`td-${i}`).className='td done';
+    }
+
+    document.getElementById('loading-msg').textContent='Synthèse en cours…';
+    const transcript = turns.map(t=>`${t.speaker}: ${t.text}`).join('\n\n');
+    const synthPrompt = `Débat entre ${myAgent.name} et ${selectedAgent.name} sur : "${topic}"\n\n${transcript}\n\nSynthèse neutre en 3 phrases : position de chacun, point de convergence s'il y en a, désaccord principal.`;
+    const synthesis = await callClaude('Tu es un modérateur de débat neutre et concis. Réponds en français.', [{role:'user',content:synthPrompt}]);
+
+    renderResult(turns, synthesis);
+    goTo('s-result');
+
+  } catch(e) {
+    goTo('s-topic');
+    document.getElementById('topic-err').innerHTML=`<div class="err">Erreur API : ${e.message}</div>`;
+  }
+}
+
+function renderResult(turns, synthesis) {
+  const a1=myAgent, a2=selectedAgent;
+
+  document.getElementById('result-header').innerHTML=`
+    <div class="debate-participants">
+      <div class="topic-ava" style="background:${a1.color.bg};color:${a1.color.text};width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0">${getInitials(a1.name)}</div>
+      <div style="flex:1">
+        <div class="debate-topic-label">Sujet débattu</div>
+        <div class="debate-topic-text">${currentTopic}</div>
+      </div>
+      <div class="topic-ava" style="background:${a2.color.bg};color:${a2.color.text};width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0">${getInitials(a2.name)}</div>
+    </div>`;
+
+  document.getElementById('messages').innerHTML = turns.map((t,i)=>`
+    <div class="msg ${t.isMe?'left':'right'}" style="animation-delay:${i*.07}s">
+      <div class="msg-ava" style="background:${t.isMe?a1.color.bg:a2.color.bg};color:${t.isMe?a1.color.text:a2.color.text}">${getInitials(t.speaker)}</div>
+      <div class="msg-inner">
+        <div class="msg-name">${t.speaker}</div>
+        <div class="msg-bubble">${t.text}</div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('synthesis').innerHTML=`
+    <div class="synth-label">Synthèse</div>
+    <div class="synth-text">${synthesis}</div>`;
+}
+
+function fullRestart() { myAgent=null; selectedAgent=null; goTo('s-create'); }
+</script>
+</body>
+</html>
