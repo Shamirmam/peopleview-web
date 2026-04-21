@@ -373,22 +373,24 @@ export default function Landing() {
         }
         .btn-nav:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,77,28,.3); }
 
-        .hero { padding: 140px 2rem 80px; }
+        .hero { padding: 100px 2rem 60px; }
         .hero-inner {
           max-width: 1160px; margin: 0 auto;
           display: grid; grid-template-columns: 1fr 1fr;
-          gap: 5rem; align-items: center;
+          gap: 3.5rem; align-items: center;
         }
         @media (max-width: 900px) {
-          .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+          .hero { padding: 100px 2rem 50px; }
+          .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
           .br-d { display: none; }
           .hero-text { text-align: center; }
           .hero-desc { margin-left: auto; margin-right: auto; }
           .hero-actions { justify-content: center; }
+          .debate-card { height: 520px; }
         }
         .hero-eyebrow {
           font-size: 11px; font-weight: 500; letter-spacing: .14em;
-          text-transform: uppercase; color: var(--accent); margin-bottom: 1.25rem;
+          text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem;
         }
         .hero-title {
           font-family: 'Syne', sans-serif;
@@ -413,8 +415,8 @@ export default function Landing() {
         }
         .hero-desc {
           font-size: 1rem; line-height: 1.8;
-          color: var(--text-muted); margin-bottom: 2rem; max-width: 460px;
-          margin-top: 1.5rem;
+          color: var(--text-muted); margin-bottom: 1.5rem; max-width: 460px;
+          margin-top: 1rem;
         }
         .hero-actions { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
         .btn-primary {
@@ -434,7 +436,7 @@ export default function Landing() {
 
         .debate-card {
           background: #fff; border: 1px solid var(--border); border-radius: 18px;
-          overflow: hidden; height: 700px; display: flex; flex-direction: column;
+          overflow: hidden; height: 580px; display: flex; flex-direction: column;
           box-shadow: 0 4px 32px rgba(26,26,26,.07), 0 1px 4px rgba(26,26,26,.05);
           flex-shrink: 0;
         }
@@ -453,7 +455,7 @@ export default function Landing() {
         .dp-vs { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: .06em; }
         .debate-body {
           padding: 1.25rem 1.5rem; flex: 1;
-          overflow-y: hidden; display: flex; flex-direction: column; gap: 14px;
+          overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
         }
 
         @keyframes turnIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
