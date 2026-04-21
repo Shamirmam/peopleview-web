@@ -340,6 +340,7 @@ export default function Landing() {
           .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
           .br-d { display: none; }
         }
+        .hero-text { text-align: center; }
         .hero-eyebrow {
           font-size: 11px; font-weight: 500; letter-spacing: .14em;
           text-transform: uppercase; color: var(--accent); margin-bottom: 1.25rem;
@@ -369,8 +370,9 @@ export default function Landing() {
           font-size: 1rem; line-height: 1.8;
           color: var(--text-muted); margin-bottom: 2rem; max-width: 460px;
           margin-top: 1.5rem;
+          margin-left: auto; margin-right: auto;
         }
-        .hero-actions { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .hero-actions { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
         .btn-primary {
           background: #111010; color: #fff;
           font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
