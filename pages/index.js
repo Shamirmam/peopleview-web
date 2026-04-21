@@ -145,10 +145,7 @@ export default function Landing() {
         <section className="hero">
           <div className="hero-inner">
             <div className="hero-text">
-              <div className="hero-badge">
-                <span className="badge-dot"></span>
-                <span>{t.eyebrow}</span>
-              </div>
+              <div className="hero-eyebrow">{t.eyebrow}</div>
               <h1 className="hero-title">
                 {t.heroTitle1}<br />
                 <span className="hero-word" key={wordIdx}>{t.heroWords[wordIdx]}</span><br />
@@ -157,18 +154,8 @@ export default function Landing() {
               </h1>
               <p className="hero-desc">{t.heroDesc}</p>
               <div className="hero-actions">
-                <Link href="https://peopleview-chi.vercel.app/" className="btn-primary">
-                  <span>{t.heroCta}</span>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M6 3L11 8L6 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </Link>
-                <a href="#how" className="btn-secondary">
-                  <span>{t.heroHow}</span>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M8 3V13M8 13L12 9M8 13L4 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </a>
+                <Link href="https://peopleview-chi.vercel.app/" className="btn-primary">{t.heroCta} <span>→</span></Link>
+                <a href="#how" className="btn-text">{t.heroHow} <span>→</span></a>
               </div>
             </div>
 
@@ -343,7 +330,7 @@ export default function Landing() {
         }
         .btn-nav:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,77,28,.3); }
 
-        .hero { padding: 140px 2rem 80px; position: relative; }
+        .hero { padding: 140px 2rem 80px; }
         .hero-inner {
           max-width: 1160px; margin: 0 auto;
           display: grid; grid-template-columns: 1fr 1fr;
@@ -353,103 +340,51 @@ export default function Landing() {
           .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
           .br-d { display: none; }
         }
-
-        .hero-badge {
-          display: inline-flex; align-items: center; gap: 8px;
-          background: linear-gradient(135deg, rgba(255,92,43,.08) 0%, rgba(255,140,90,.12) 100%);
-          border: 1px solid rgba(255,92,43,.2);
-          padding: 8px 16px; border-radius: 100px;
-          font-size: 11px; font-weight: 600; letter-spacing: .08em;
-          text-transform: uppercase; color: var(--accent);
-          margin-bottom: 1.75rem;
-          backdrop-filter: blur(8px);
+        .hero-eyebrow {
+          font-size: 11px; font-weight: 500; letter-spacing: .14em;
+          text-transform: uppercase; color: var(--accent); margin-bottom: 1.25rem;
         }
-        .badge-dot {
-          width: 6px; height: 6px; border-radius: 50%;
-          background: var(--accent);
-          animation: pulse-dot 2s ease-in-out infinite;
-        }
-        @keyframes pulse-dot {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: .6; transform: scale(1.15); }
-        }
-
         .hero-title {
           font-family: 'Syne', sans-serif;
-          font-size: clamp(2.6rem, 4.5vw, 3.8rem);
-          font-weight: 800; line-height: 1.02;
-          letter-spacing: -.03em; color: var(--text); margin-bottom: 0;
+          font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+          font-weight: 700; line-height: 1.05;
+          letter-spacing: -.02em; color: var(--text); margin-bottom: 0;
         }
         .hero-title em {
           font-style: normal; color: var(--accent);
-          font-size: clamp(1.15rem, 2.2vw, 1.5rem);
-          display: block; margin-top: .5rem;
-          font-weight: 700;
-          background: linear-gradient(135deg, var(--accent) 0%, #ff8c5a 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          font-size: clamp(1.05rem, 2vw, 1.35rem);
+          display: block; margin-top: .4rem;
+          font-weight: 600;
         }
         @keyframes wordIn {
-          from { opacity: 0; transform: translateY(12px); }
+          from { opacity: 0; transform: translateY(10px); }
           to   { opacity: 1; transform: translateY(0); }
         }
         .hero-word {
-          background: linear-gradient(135deg, var(--accent) 0%, #ff8c5a 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: var(--accent);
           display: inline-block;
-          animation: wordIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-          filter: drop-shadow(0 2px 8px rgba(255,92,43,.15));
+          animation: wordIn 0.35s ease forwards;
         }
         .hero-desc {
-          font-size: 1.05rem; line-height: 1.75;
-          color: var(--text-muted); margin-bottom: 2.5rem; max-width: 480px;
-          margin-top: 1.75rem;
+          font-size: 1rem; line-height: 1.8;
+          color: var(--text-muted); margin-bottom: 2rem; max-width: 460px;
+          margin-top: 1.5rem;
         }
-        .hero-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-
+        .hero-actions { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
         .btn-primary {
-          position: relative;
-          background: linear-gradient(135deg, #ff4d1c 0%, #ff6b3d 50%, #ff8c5a 100%);
-          color: #fff;
-          font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
-          padding: 16px 32px; border-radius: 100px; text-decoration: none;
-          display: inline-flex; align-items: center; gap: 10px;
-          transition: all .3s cubic-bezier(0.34, 1.56, 0.64, 1);
-          box-shadow: 0 4px 16px rgba(255,77,28,.25), 0 1px 4px rgba(255,77,28,.15);
-          border: 1px solid rgba(255,255,255,.2);
-          overflow: hidden;
-        }
-        .btn-primary::before {
-          content: ''; position: absolute; inset: 0;
-          background: linear-gradient(135deg, #ff6b3d 0%, #ff8c5a 100%);
-          opacity: 0; transition: opacity .3s ease;
-        }
-        .btn-primary:hover::before { opacity: 1; }
-        .btn-primary:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 12px 32px rgba(255,77,28,.35), 0 4px 12px rgba(255,77,28,.25);
-        }
-        .btn-primary span, .btn-primary svg { position: relative; z-index: 1; }
-
-        .btn-secondary {
-          background: rgba(255,255,255,.03);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(26,26,26,.12);
-          color: var(--text);
-          font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
-          padding: 16px 28px; border-radius: 100px; text-decoration: none;
+          background: #111010; color: #fff;
+          font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+          padding: 14px 28px; border-radius: 100px; text-decoration: none;
           display: inline-flex; align-items: center; gap: 8px;
-          transition: all .25s ease;
+          transition: background .2s, transform .2s, box-shadow .2s;
         }
-        .btn-secondary:hover {
-          background: rgba(255,255,255,.06);
-          border-color: rgba(26,26,26,.2);
-          transform: translateY(-2px);
-          box-shadow: 0 4px 16px rgba(26,26,26,.08);
+        .btn-primary:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,77,28,.25); }
+        .btn-text {
+          font-size: 14px; color: #9a9690; text-decoration: none;
+          display: inline-flex; align-items: center; gap: 6px;
+          transition: color .2s;
         }
+        .btn-text:hover { color: var(--text); }
 
         .debate-card {
           background: #fff; border: 1px solid var(--border); border-radius: 18px;
