@@ -178,7 +178,7 @@ export default function Landing() {
               </div>
               <div className="debate-body" key={`${cycle}-${locale}`}>
                 {t.debateTurns.map((turn, i) => {
-                  const baseDelay = 0.3 + i * 0.9
+                  const baseDelay = 0.3 + i * 1.8
                   return (
                     <div key={i}>
                       <div
