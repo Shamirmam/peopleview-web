@@ -6,13 +6,13 @@ import { useEffect, useState } from 'react'
 const T = {
   en: {
     title: 'PeopleView — Know what others really think',
-    metaDesc: 'Create your AI agent, pick an opponent, and discover what people really think without having to ask them.',
+    metaDesc: 'Create your AI agent once. It speaks for you automatically. Discover what people really think — without ever asking them.',
     navCta: 'Create my agent',
-    eyebrow: 'AI agent debates',
+    eyebrow: 'Your agent speaks for you',
     heroTitle1: 'Know what others',
     heroTitle2: 'really think.',
-    heroEm: 'Without having to ask.',
-    heroDesc: "Each person creates an AI agent that reflects who they are. Two agents debate automatically on any topic. The result: honest opinions, with no social filter.",
+    heroEm: 'Without ever having to ask.',
+    heroDesc: "You create your AI agent once — it represents you and speaks on your behalf. Start a debate with anyone. Both agents clash automatically. You just watch the result.",
     heroCta: 'Create my agent',
     heroHow: 'See how it works',
     debateLabel: 'Debate topic',
@@ -20,23 +20,23 @@ const T = {
     usecasesEyebrow: "What it's for",
     usecasesTitle: 'Four ways to use it',
     usecases: [
-      { tag: 'With friends', title: "Know who thinks what, without making it awkward", desc: "Start a debate on a sensitive topic among your friends. Discover their real positions without social pressure." },
-      { tag: 'As a couple', title: "Defuse the topics you're afraid to bring up", desc: "Holidays, money, the future. Let your agents debate first. Much easier." },
-      { tag: 'At work', title: "Explore disagreements without team friction", desc: "Strategy, organization, decisions. Test positions before the real meeting." },
-      { tag: 'On social media', title: "Share your agent and spark public debates", desc: "Post your link, let anyone challenge your agent. See what others truly think." },
+      { tag: 'With friends', title: "Find out who thinks what — without the awkwardness", desc: "Launch a debate on a sensitive topic. Your agents speak for each of you. Discover real positions without social pressure." },
+      { tag: 'As a couple', title: "Surface the conversations you avoid", desc: "Holidays, money, the future. Let your agents go first. The result is honest — no ego involved." },
+      { tag: 'At work', title: "Expose disagreements without the friction", desc: "Strategy, org decisions, tradeoffs. Test real positions before the actual meeting." },
+      { tag: 'On social media', title: "Share your agent and spark public debates", desc: "Post your link, let anyone challenge your agent. See what people truly think at scale." },
     ],
     howEyebrow: 'How it works',
     howTitle: 'Simple. Fast. Revealing.',
     steps: [
-      { n: '01', title: "Create your agent", desc: "Answer 6 questions about your personality, values, and style. Your agent is built in your image." },
-      { n: '02', title: "Pick an opponent", desc: "Select another person's agent or a profile available on the platform." },
-      { n: '03', title: "Ask your question", desc: "Write any topic. Both agents debate automatically. You read, you discover." },
+      { n: '01', title: "Create your agent", desc: "Answer 6 questions about your personality, values, and communication style. Your agent is built in your image." },
+      { n: '02', title: "Pick an opponent", desc: "Select another person's agent or a profile available on the platform. They don't need to be online." },
+      { n: '03', title: "Sit back and watch", desc: "Write any topic. Both agents debate automatically on your behalf. You just read — and discover what they truly think." },
     ],
     ctaTag: 'Ready to start?',
     ctaTitle1: 'Create your agent.',
     ctaTitle2: 'Start your first debate.',
-    ctaDesc: "It takes 2 minutes. Be honest in the questionnaire — that's what makes the results real.",
-    ctaBtn: 'Create my agent now',
+    ctaDesc: "Takes 2 minutes. The more honest you are in the questionnaire, the more your agent sounds like you — and the more revealing the debates.",
+    ctaBtn: 'Create my agent',
     debateTurns: [
       { name: 'Léa', initials: 'LM', side: 'left', text: "I think we should move in together. It would save us money and we'd spend more time with each other." },
       { name: 'Marc', initials: 'MR', side: 'right', text: "Honestly, no. We each have our own space, our own rhythm. Moving in too soon can kill a relationship." },
@@ -46,13 +46,13 @@ const T = {
   },
   fr: {
     title: 'PeopleView — Sache ce que les autres pensent vraiment',
-    metaDesc: "Crée ton agent IA, choisis un adversaire, et découvre ce que les gens pensent vraiment sans avoir à leur demander.",
+    metaDesc: "Crée ton agent IA une fois. Il parle à ta place automatiquement. Découvre ce que les gens pensent vraiment — sans jamais avoir à le demander.",
     navCta: 'Créer mon agent',
-    eyebrow: 'Débats entre agents IA',
+    eyebrow: 'Ton agent parle pour toi',
     heroTitle1: 'Sache ce que les autres',
     heroTitle2: 'pensent vraiment.',
-    heroEm: 'Sans avoir à leur demander.',
-    heroDesc: "Chaque personne crée un agent IA qui lui ressemble. Deux agents débattent automatiquement sur n'importe quel sujet. Le résultat : des opinions honnêtes, sans filtre social.",
+    heroEm: 'Sans jamais avoir à demander.',
+    heroDesc: "Tu crées ton agent IA une fois — il te représente et parle à ta place. Lance un débat avec n'importe qui. Les deux agents s'affrontent automatiquement. Toi, tu regardes juste le résultat.",
     heroCta: 'Créer mon agent',
     heroHow: 'Voir comment ça marche',
     debateLabel: 'Sujet du débat',
@@ -60,23 +60,23 @@ const T = {
     usecasesEyebrow: 'À quoi ça sert',
     usecasesTitle: "Quatre façons de l'utiliser",
     usecases: [
-      { tag: 'Entre amis', title: "Savoir qui pense quoi, sans mettre mal à l'aise", desc: "Lance un débat sur un sujet sensible entre tes amis. Découvre leurs vraies positions sans pression sociale." },
-      { tag: 'En couple', title: "Désamorcer les sujets qu'on n'ose pas aborder", desc: "Vacances, argent, avenir. Laisse vos agents débattre d'abord. Beaucoup plus simple." },
-      { tag: 'Au travail', title: "Explorer des désaccords sans friction d'équipe", desc: "Stratégie, organisation, décisions. Testez les positions avant la vraie réunion." },
-      { tag: 'Sur les réseaux', title: "Partager ton agent et provoquer des débats publics", desc: "Publie ton lien, laisse n'importe qui défier ton agent. Vois ce que les autres pensent vraiment." },
+      { tag: 'Entre amis', title: "Savoir qui pense quoi, sans mettre mal à l'aise", desc: "Lance un débat sur un sujet sensible. Vos agents parlent pour vous. Découvrez les vraies positions sans pression sociale." },
+      { tag: 'En couple', title: "Faire remonter les conversations qu'on évite", desc: "Vacances, argent, avenir. Laisse vos agents y aller en premier. Le résultat est honnête — sans ego." },
+      { tag: 'Au travail', title: "Révéler les désaccords sans friction d'équipe", desc: "Stratégie, organisation, décisions. Testez les vraies positions avant la réunion." },
+      { tag: 'Sur les réseaux', title: "Partager ton agent et provoquer des débats publics", desc: "Publie ton lien, laisse n'importe qui défier ton agent. Vois ce que les autres pensent vraiment, à grande échelle." },
     ],
     howEyebrow: 'Comment ça marche',
     howTitle: 'Simple. Rapide. Révélateur.',
     steps: [
-      { n: '01', title: "Crée ton agent", desc: "Réponds à 6 questions sur ta personnalité, tes valeurs et ton style. Ton agent te ressemble." },
-      { n: '02', title: "Choisis un adversaire", desc: "Sélectionne l'agent d'une autre personne ou un profil disponible sur la plateforme." },
-      { n: '03', title: "Pose ta question", desc: "Écris n'importe quel sujet. Les deux agents débattent automatiquement. Tu lis, tu découvres." },
+      { n: '01', title: "Crée ton agent", desc: "Réponds à 6 questions sur ta personnalité, tes valeurs et ton style de communication. Ton agent est construit à ton image." },
+      { n: '02', title: "Choisis un adversaire", desc: "Sélectionne l'agent d'une autre personne sur la plateforme. Elle n'a pas besoin d'être en ligne." },
+      { n: '03', title: "Regarde juste le résultat", desc: "Écris n'importe quel sujet. Les deux agents débattent automatiquement à votre place. Toi, tu lis — et tu découvres ce qu'ils pensent vraiment." },
     ],
     ctaTag: 'Prêt à commencer ?',
     ctaTitle1: 'Crée ton agent.',
     ctaTitle2: 'Lance ton premier débat.',
-    ctaDesc: "Ça prend 2 minutes. Sois honnête dans le questionnaire — c'est ça qui rend les résultats vrais.",
-    ctaBtn: 'Créer mon agent maintenant',
+    ctaDesc: "Ça prend 2 minutes. Plus tu es honnête dans le questionnaire, plus ton agent te ressemble — et plus les débats sont révélateurs.",
+    ctaBtn: 'Créer mon agent',
     debateTurns: [
       { name: 'Léa', initials: 'LM', side: 'left', text: "Je pense qu'on devrait vivre ensemble. Ça nous ferait économiser et on passerait plus de temps ensemble." },
       { name: 'Marc', initials: 'MR', side: 'right', text: "Franchement non. On a chacun notre espace, notre rythme. Cohabiter trop tôt peut tuer une relation." },
@@ -98,8 +98,6 @@ export default function Landing() {
     return () => clearInterval(timer)
   }, [])
 
-  const otherLocale = locale === 'fr' ? 'en' : 'fr'
-
   return (
     <>
       <Head>
@@ -116,14 +114,20 @@ export default function Landing() {
         {/* HEADER */}
         <header className="header">
           <div className="header-inner">
-            <div className="logo">
+            <Link href="/" className="logo">
               <div className="logo-mark" />
               <span>PEOPLEVIEW</span>
-            </div>
+            </Link>
             <div className="header-right">
-              <Link href="/" locale={otherLocale} className="btn-lang">
-                {otherLocale.toUpperCase()}
-              </Link>
+              <div className="lang-toggle">
+                {locale === 'fr'
+                  ? <span className="lang-opt lang-active">FR</span>
+                  : <Link href="/" locale="fr" className="lang-opt">FR</Link>}
+                <span className="lang-sep">/</span>
+                {locale === 'en'
+                  ? <span className="lang-opt lang-active">EN</span>
+                  : <Link href="/" locale="en" className="lang-opt">EN</Link>}
+              </div>
               <Link href="https://peopleview-chi.vercel.app/" className="btn-nav">{t.navCta} <span>→</span></Link>
             </div>
           </div>
@@ -286,30 +290,35 @@ export default function Landing() {
         .logo {
           font-family: 'Syne', sans-serif; font-weight: 800;
           font-size: 1.05rem; letter-spacing: .08em;
-          display: flex; align-items: center; gap: 9px;
+          display: flex; align-items: center; gap: 10px;
           color: var(--text); text-decoration: none;
         }
-        .logo-mark { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-        .logo-mark-sm { width: 6px; height: 6px; }
-        .header-right { display: flex; align-items: center; gap: 10px; }
-        .btn-lang {
-          font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
-          color: var(--text-muted); text-decoration: none;
-          padding: 6px 12px; border-radius: 100px;
+        .logo-mark { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+        .logo-mark-sm { width: 7px; height: 7px; }
+        .header-right { display: flex; align-items: center; gap: 12px; }
+        .lang-toggle {
+          display: flex; align-items: center; gap: 2px;
+          background: rgba(26,26,26,.05);
           border: 1px solid var(--border);
-          letter-spacing: .06em;
-          transition: color .2s, border-color .2s;
+          border-radius: 100px;
+          padding: 5px 12px;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 12px; font-weight: 600;
+          letter-spacing: .07em;
         }
-        .btn-lang:hover { color: var(--text); border-color: rgba(26,26,26,.25); }
+        .lang-opt { color: var(--text-muted); padding: 0 3px; transition: color .2s; }
+        .lang-opt:hover { color: var(--text); }
+        .lang-active { color: var(--text); cursor: default; }
+        .lang-sep { color: rgba(26,26,26,.2); padding: 0 1px; user-select: none; }
         .btn-nav {
           font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
           color: #fff; text-decoration: none;
           padding: 9px 20px; border-radius: 100px;
-          background: #111010;
+          background: var(--accent);
           display: inline-flex; align-items: center; gap: 6px;
-          transition: background .2s, transform .2s;
+          transition: background .2s, transform .2s, box-shadow .2s;
         }
-        .btn-nav:hover { background: var(--accent); transform: translateY(-2px); }
+        .btn-nav:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,77,28,.3); }
 
         .hero { padding: 140px 2rem 80px; }
         .hero-inner {
