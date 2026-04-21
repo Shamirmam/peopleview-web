@@ -147,11 +147,11 @@ export default function Landing() {
             <div className="hero-text">
               <div className="hero-eyebrow">{t.eyebrow}</div>
               <h1 className="hero-title">
-                {t.heroTitle1}<br />
-                <span className="hero-word" key={wordIdx}>{t.heroWords[wordIdx]}</span><br />
-                {t.heroTitle2}<br />
-                <em>{t.heroEm}</em>
+                {t.heroTitle1}{' '}
+                <span className="hero-word" key={wordIdx}>{t.heroWords[wordIdx]}</span>
+                <br />{t.heroTitle2}
               </h1>
+              <p className="hero-em">{t.heroEm}</p>
               <p className="hero-desc">{t.heroDesc}</p>
               <div className="hero-actions">
                 <Link href="https://peopleview-chi.vercel.app/" className="btn-primary">{t.heroCta} <span>→</span></Link>
@@ -346,19 +346,24 @@ export default function Landing() {
         }
         .hero-title {
           font-family: 'Syne', sans-serif;
-          font-size: clamp(2.2rem, 4vw, 3.2rem);
-          font-weight: 700; line-height: 1.12;
-          letter-spacing: -.02em; color: var(--text); margin-bottom: 1.25rem;
+          font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+          font-weight: 800; line-height: 1.08;
+          letter-spacing: -.03em; color: var(--text); margin-bottom: .6rem;
         }
-        .hero-title em { font-style: normal; color: var(--accent); }
+        .hero-em {
+          font-family: 'Syne', sans-serif;
+          font-size: clamp(1.1rem, 2vw, 1.4rem);
+          font-weight: 600; color: var(--accent);
+          letter-spacing: -.01em; margin-bottom: 1.5rem;
+        }
         @keyframes wordIn {
-          from { opacity: 0; transform: translateY(10px); }
+          from { opacity: 0; transform: translateY(8px); }
           to   { opacity: 1; transform: translateY(0); }
         }
         .hero-word {
           color: var(--accent);
           display: inline-block;
-          animation: wordIn 0.35s ease forwards;
+          animation: wordIn 0.3s ease forwards;
         }
         .hero-desc {
           font-size: 1rem; line-height: 1.8;
