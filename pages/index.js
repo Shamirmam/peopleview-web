@@ -346,11 +346,16 @@ export default function Landing() {
         }
         .hero-title {
           font-family: 'Syne', sans-serif;
-          font-size: clamp(2.2rem, 4vw, 3.2rem);
-          font-weight: 700; line-height: 1.12;
-          letter-spacing: -.02em; color: var(--text); margin-bottom: 1.25rem;
+          font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+          font-weight: 700; line-height: 1.05;
+          letter-spacing: -.02em; color: var(--text); margin-bottom: 0;
         }
-        .hero-title em { font-style: normal; color: var(--accent); }
+        .hero-title em {
+          font-style: normal; color: var(--accent);
+          font-size: clamp(1.05rem, 2vw, 1.35rem);
+          display: block; margin-top: .4rem;
+          font-weight: 600;
+        }
         @keyframes wordIn {
           from { opacity: 0; transform: translateY(10px); }
           to   { opacity: 1; transform: translateY(0); }
@@ -363,6 +368,7 @@ export default function Landing() {
         .hero-desc {
           font-size: 1rem; line-height: 1.8;
           color: var(--text-muted); margin-bottom: 2rem; max-width: 460px;
+          margin-top: 1.5rem;
         }
         .hero-actions { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
         .btn-primary {
