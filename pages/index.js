@@ -9,8 +9,9 @@ const T = {
     metaDesc: 'Create your AI agent once. It speaks for you automatically. Discover what people really think — without ever asking them.',
     navCta: 'Create my agent',
     eyebrow: 'Your agent speaks for you',
-    heroTitle1: 'Know what others',
-    heroTitle2: 'really think.',
+    heroTitle1: 'Find out what your',
+    heroWords: ['friend', 'colleague', 'partner'],
+    heroTitle2: 'really thinks.',
     heroEm: 'Without ever having to ask.',
     heroDesc: "You create your AI agent once — it represents you and speaks on your behalf. Start a debate with anyone. Both agents clash automatically. You just watch the result.",
     heroCta: 'Create my agent',
@@ -49,9 +50,10 @@ const T = {
     metaDesc: "Crée ton agent IA une fois. Il parle à ta place automatiquement. Découvre ce que les gens pensent vraiment — sans jamais avoir à le demander.",
     navCta: 'Créer mon agent',
     eyebrow: 'Ton agent parle pour toi',
-    heroTitle1: 'Découvrez ce que les autres',
-    heroTitle2: 'pensent vraiment.',
-    heroEm: 'Sans jamais avoir à leur demander.',
+    heroTitle1: 'Découvre ce que ton',
+    heroWords: ['ami', 'collègue', 'partenaire'],
+    heroTitle2: 'pense vraiment.',
+    heroEm: 'Sans avoir à le lui demander.',
     heroDesc: "Tu crées ton agent IA une fois — il te représente et parle à ta place. Lance un débat avec n'importe qui. Les deux agents s'affrontent automatiquement. Toi, tu regardes juste le résultat.",
     heroCta: 'Créer mon agent',
     heroHow: 'Voir comment ça marche',
@@ -92,9 +94,15 @@ export default function Landing() {
   const { locale } = useRouter()
   const t = T[locale] ?? T.en
   const [cycle, setCycle] = useState(0)
+  const [wordIdx, setWordIdx] = useState(0)
 
   useEffect(() => {
     const timer = setInterval(() => setCycle(c => c + 1), CYCLE)
+    return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    const timer = setInterval(() => setWordIdx(i => (i + 1) % 3), 2000)
     return () => clearInterval(timer)
   }, [])
 
@@ -139,7 +147,9 @@ export default function Landing() {
             <div className="hero-text">
               <div className="hero-eyebrow">{t.eyebrow}</div>
               <h1 className="hero-title">
-                {t.heroTitle1}<br className="br-d" /> {t.heroTitle2}<br />
+                {t.heroTitle1}<br />
+                <span className="hero-word" key={wordIdx}>{t.heroWords[wordIdx]}</span><br />
+                {t.heroTitle2}<br />
                 <em>{t.heroEm}</em>
               </h1>
               <p className="hero-desc">{t.heroDesc}</p>
@@ -341,6 +351,15 @@ export default function Landing() {
           letter-spacing: -.02em; color: var(--text); margin-bottom: 1.25rem;
         }
         .hero-title em { font-style: normal; color: var(--accent); }
+        @keyframes wordIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero-word {
+          color: var(--accent);
+          display: inline-block;
+          animation: wordIn 0.35s ease forwards;
+        }
         .hero-desc {
           font-size: 1rem; line-height: 1.8;
           color: var(--text-muted); margin-bottom: 2rem; max-width: 460px;
