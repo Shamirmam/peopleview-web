@@ -70,23 +70,15 @@ const STEPS = [
   },
 ]
 
+const CYCLE = 6000 // ms — durée totale avant de relancer la boucle
+
 export default function Landing() {
-  const [visible, setVisible] = useState(0)
-  const [paused, setPaused] = useState(false)
+  const [cycle, setCycle] = useState(0)
 
   useEffect(() => {
-    if (paused) return
-    if (visible >= DEBATE_TURNS.length) return
-    const t = setTimeout(() => setVisible(v => v + 1), visible === 0 ? 800 : 1400)
-    return () => clearTimeout(t)
-  }, [visible, paused])
-
-  useEffect(() => {
-    if (visible >= DEBATE_TURNS.length) {
-      const t = setTimeout(() => { setVisible(0) }, 3200)
-      return () => clearTimeout(t)
-    }
-  }, [visible])
+    const t = setInterval(() => setCycle(c => c + 1), CYCLE)
+    return () => clearInterval(t)
+  }, [])
 
   return (
     <>
@@ -131,11 +123,7 @@ export default function Landing() {
             </div>
 
             {/* DEBATE PREVIEW */}
-            <div
-              className="debate-card"
-              onMouseEnter={() => setPaused(true)}
-              onMouseLeave={() => setPaused(false)}
-            >
+            <div className="debate-card">
               <div className="debate-header">
                 <div className="debate-topic-label">Sujet du débat</div>
                 <div className="debate-topic">Faut-il vivre ensemble avant de se marier ?</div>
@@ -151,9 +139,13 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
-              <div className="debate-body">
-                {DEBATE_TURNS.slice(0, visible).map((turn, i) => (
-                  <div key={i} className={`turn turn-${turn.side} turn-in`}>
+              <div className="debate-body" key={cycle}>
+                {DEBATE_TURNS.map((turn, i) => (
+                  <div
+                    key={i}
+                    className={`turn turn-${turn.side}`}
+                    style={{ animationDelay: `${0.3 + i * 0.9}s` }}
+                  >
                     <div className={`turn-ava turn-ava-${turn.side === 'left' ? 'a' : 'b'}`}>
                       {turn.initials}
                     </div>
@@ -163,16 +155,6 @@ export default function Landing() {
                     </div>
                   </div>
                 ))}
-                {visible < DEBATE_TURNS.length && visible > 0 && (
-                  <div className={`typing typing-${DEBATE_TURNS[visible].side}`}>
-                    <div className={`turn-ava turn-ava-${DEBATE_TURNS[visible].side === 'left' ? 'a' : 'b'} typing-ava`}>
-                      {DEBATE_TURNS[visible].initials}
-                    </div>
-                    <div className="typing-dots">
-                      <span /><span /><span />
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           </div>
@@ -338,10 +320,11 @@ export default function Landing() {
 
         .debate-card {
           background: #fff; border: 1px solid var(--border); border-radius: 18px;
-          overflow: hidden;
+          overflow: hidden; height: 480px; display: flex; flex-direction: column;
           box-shadow: 0 4px 32px rgba(26,26,26,.07), 0 1px 4px rgba(26,26,26,.05);
+          flex-shrink: 0;
         }
-        .debate-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); background: var(--bg-card); }
+        .debate-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); background: var(--bg-card); flex-shrink: 0; }
         .debate-topic-label {
           font-size: 10px; font-weight: 600; letter-spacing: .12em;
           text-transform: uppercase; color: var(--text-muted); margin-bottom: .4rem;
@@ -354,12 +337,17 @@ export default function Landing() {
         .dp-ava-a { background: rgba(255,77,28,.1); color: var(--accent); }
         .dp-ava-b { background: rgba(26,26,26,.07); color: var(--text); }
         .dp-vs { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: .06em; }
-        .debate-body { padding: 1.25rem 1.5rem; min-height: 220px; display: flex; flex-direction: column; gap: 12px; }
+        .debate-body {
+          padding: 1.25rem 1.5rem; flex: 1;
+          overflow-y: hidden; display: flex; flex-direction: column; gap: 14px;
+        }
 
-        .turn { display: flex; gap: 9px; align-items: flex-start; }
+        @keyframes turnIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .turn {
+          display: flex; gap: 9px; align-items: flex-start;
+          opacity: 0; animation: turnIn .45s ease forwards;
+        }
         .turn-right { flex-direction: row-reverse; }
-        @keyframes turnIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        .turn-in { animation: turnIn .35s ease both; }
         .turn-ava { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
         .turn-ava-a { background: rgba(255,77,28,.1); color: var(--accent); }
         .turn-ava-b { background: rgba(26,26,26,.07); color: var(--text); }
@@ -369,15 +357,6 @@ export default function Landing() {
         .turn-bubble { font-size: 13px; line-height: 1.65; padding: 10px 13px; border-radius: 3px 11px 11px 11px; }
         .turn-bubble-left { background: var(--bg-card); border: 1px solid var(--border); color: var(--text); }
         .turn-bubble-right { background: rgba(255,77,28,.07); border: 1px solid rgba(255,77,28,.15); color: #3a1a10; border-radius: 11px 3px 11px 11px; }
-
-        .typing { display: flex; gap: 9px; align-items: center; }
-        .typing-right { flex-direction: row-reverse; }
-        .typing-ava { opacity: .6; }
-        .typing-dots { display: flex; gap: 4px; padding: 10px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 3px 11px 11px 11px; }
-        .typing-dots span { display: block; width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); animation: dot 1.2s ease infinite; }
-        .typing-dots span:nth-child(2) { animation-delay: .2s; }
-        .typing-dots span:nth-child(3) { animation-delay: .4s; }
-        @keyframes dot { 0%, 100% { opacity: .3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
 
         .usecases { padding: 6rem 2rem; background: #f2efe9; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
         .section-inner { max-width: 1160px; margin: 0 auto; }
