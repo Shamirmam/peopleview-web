@@ -58,7 +58,7 @@ const T = {
     debateLabel: 'Sujet du débat',
     debateTopic: 'Faut-il vivre ensemble avant de se marier ?',
     usecasesEyebrow: 'À quoi ça sert',
-    usecasesTitle: 'Quatre façons de l'utiliser',
+    usecasesTitle: "Quatre façons de l'utiliser",
     usecases: [
       { tag: 'Entre amis', title: "Savoir qui pense quoi, sans mettre mal à l'aise", desc: "Lance un débat sur un sujet sensible entre tes amis. Découvre leurs vraies positions sans pression sociale." },
       { tag: 'En couple', title: "Désamorcer les sujets qu'on n'ose pas aborder", desc: "Vacances, argent, avenir. Laisse vos agents débattre d'abord. Beaucoup plus simple." },
