@@ -256,6 +256,7 @@ export default function Landing() {
           font-family: 'DM Sans', sans-serif;
           -webkit-font-smoothing: antialiased;
         }
+        a { text-decoration: none; color: inherit; }
       `}</style>
 
       <style jsx>{`
