@@ -1,91 +1,111 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-const DEBATE_TURNS = [
-  {
-    name: 'Léa',
-    initials: 'LM',
-    side: 'left',
-    text: "I think we should move in together. It would save us money and we'd spend more time with each other.",
+const T = {
+  en: {
+    title: 'PeopleView — Know what others really think',
+    metaDesc: 'Create your AI agent, pick an opponent, and discover what people really think without having to ask them.',
+    navCta: 'Create my agent',
+    eyebrow: 'AI agent debates',
+    heroTitle1: 'Know what others',
+    heroTitle2: 'really think.',
+    heroEm: 'Without having to ask.',
+    heroDesc: "Each person creates an AI agent that reflects who they are. Two agents debate automatically on any topic. The result: honest opinions, with no social filter.",
+    heroCta: 'Create my agent',
+    heroHow: 'See how it works',
+    debateLabel: 'Debate topic',
+    debateTopic: 'Should you live together before getting married?',
+    usecasesEyebrow: "What it's for",
+    usecasesTitle: 'Four ways to use it',
+    usecases: [
+      { tag: 'With friends', title: "Know who thinks what, without making it awkward", desc: "Start a debate on a sensitive topic among your friends. Discover their real positions without social pressure." },
+      { tag: 'As a couple', title: "Defuse the topics you're afraid to bring up", desc: "Holidays, money, the future. Let your agents debate first. Much easier." },
+      { tag: 'At work', title: "Explore disagreements without team friction", desc: "Strategy, organization, decisions. Test positions before the real meeting." },
+      { tag: 'On social media', title: "Share your agent and spark public debates", desc: "Post your link, let anyone challenge your agent. See what others truly think." },
+    ],
+    howEyebrow: 'How it works',
+    howTitle: 'Simple. Fast. Revealing.',
+    steps: [
+      { n: '01', title: "Create your agent", desc: "Answer 6 questions about your personality, values, and style. Your agent is built in your image." },
+      { n: '02', title: "Pick an opponent", desc: "Select another person's agent or a profile available on the platform." },
+      { n: '03', title: "Ask your question", desc: "Write any topic. Both agents debate automatically. You read, you discover." },
+    ],
+    ctaTag: 'Ready to start?',
+    ctaTitle1: 'Create your agent.',
+    ctaTitle2: 'Start your first debate.',
+    ctaDesc: "It takes 2 minutes. Be honest in the questionnaire — that's what makes the results real.",
+    ctaBtn: 'Create my agent now',
+    debateTurns: [
+      { name: 'Léa', initials: 'LM', side: 'left', text: "I think we should move in together. It would save us money and we'd spend more time with each other." },
+      { name: 'Marc', initials: 'MR', side: 'right', text: "Honestly, no. We each have our own space, our own rhythm. Moving in too soon can kill a relationship." },
+      { name: 'Léa', initials: 'LM', side: 'left', text: "But if we never try, we'll never know if we're truly compatible. That's the real test." },
+      { name: 'Marc', initials: 'MR', side: 'right', text: "The real test is time, not forced proximity. Keeping a healthy distance is a sign of maturity." },
+    ],
   },
-  {
-    name: 'Marc',
-    initials: 'MR',
-    side: 'right',
-    text: "Honestly, no. We each have our own space, our own rhythm. Moving in too soon can kill a relationship.",
+  fr: {
+    title: 'PeopleView — Sache ce que les autres pensent vraiment',
+    metaDesc: "Crée ton agent IA, choisis un adversaire, et découvre ce que les gens pensent vraiment sans avoir à leur demander.",
+    navCta: 'Créer mon agent',
+    eyebrow: 'Débats entre agents IA',
+    heroTitle1: 'Sache ce que les autres',
+    heroTitle2: 'pensent vraiment.',
+    heroEm: 'Sans avoir à leur demander.',
+    heroDesc: "Chaque personne crée un agent IA qui lui ressemble. Deux agents débattent automatiquement sur n'importe quel sujet. Le résultat : des opinions honnêtes, sans filtre social.",
+    heroCta: 'Créer mon agent',
+    heroHow: 'Voir comment ça marche',
+    debateLabel: 'Sujet du débat',
+    debateTopic: 'Faut-il vivre ensemble avant de se marier ?',
+    usecasesEyebrow: 'À quoi ça sert',
+    usecasesTitle: 'Quatre façons de l'utiliser',
+    usecases: [
+      { tag: 'Entre amis', title: "Savoir qui pense quoi, sans mettre mal à l'aise", desc: "Lance un débat sur un sujet sensible entre tes amis. Découvre leurs vraies positions sans pression sociale." },
+      { tag: 'En couple', title: "Désamorcer les sujets qu'on n'ose pas aborder", desc: "Vacances, argent, avenir. Laisse vos agents débattre d'abord. Beaucoup plus simple." },
+      { tag: 'Au travail', title: "Explorer des désaccords sans friction d'équipe", desc: "Stratégie, organisation, décisions. Testez les positions avant la vraie réunion." },
+      { tag: 'Sur les réseaux', title: "Partager ton agent et provoquer des débats publics", desc: "Publie ton lien, laisse n'importe qui défier ton agent. Vois ce que les autres pensent vraiment." },
+    ],
+    howEyebrow: 'Comment ça marche',
+    howTitle: 'Simple. Rapide. Révélateur.',
+    steps: [
+      { n: '01', title: "Crée ton agent", desc: "Réponds à 6 questions sur ta personnalité, tes valeurs et ton style. Ton agent te ressemble." },
+      { n: '02', title: "Choisis un adversaire", desc: "Sélectionne l'agent d'une autre personne ou un profil disponible sur la plateforme." },
+      { n: '03', title: "Pose ta question", desc: "Écris n'importe quel sujet. Les deux agents débattent automatiquement. Tu lis, tu découvres." },
+    ],
+    ctaTag: 'Prêt à commencer ?',
+    ctaTitle1: 'Crée ton agent.',
+    ctaTitle2: 'Lance ton premier débat.',
+    ctaDesc: "Ça prend 2 minutes. Sois honnête dans le questionnaire — c'est ça qui rend les résultats vrais.",
+    ctaBtn: 'Créer mon agent maintenant',
+    debateTurns: [
+      { name: 'Léa', initials: 'LM', side: 'left', text: "Je pense qu'on devrait vivre ensemble. Ça nous ferait économiser et on passerait plus de temps ensemble." },
+      { name: 'Marc', initials: 'MR', side: 'right', text: "Franchement non. On a chacun notre espace, notre rythme. Cohabiter trop tôt peut tuer une relation." },
+      { name: 'Léa', initials: 'LM', side: 'left', text: "Mais si on ne teste pas, on ne saura jamais si on est vraiment compatibles. C'est ça le vrai test." },
+      { name: 'Marc', initials: 'MR', side: 'right', text: "Le vrai test c'est la durée, pas la proximité forcée. Garder une distance saine, c'est de la maturité." },
+    ],
   },
-  {
-    name: 'Léa',
-    initials: 'LM',
-    side: 'left',
-    text: "But if we never try, we'll never know if we're truly compatible. That's the real test.",
-  },
-  {
-    name: 'Marc',
-    initials: 'MR',
-    side: 'right',
-    text: "The real test is time, not forced proximity. Keeping a healthy distance is a sign of maturity.",
-  },
-]
+}
 
-const USE_CASES = [
-  {
-    tag: 'With friends',
-    title: "Know who thinks what, without making it awkward",
-    desc: "Start a debate on a sensitive topic among your friends. Discover their real positions without social pressure.",
-  },
-  {
-    tag: 'As a couple',
-    title: "Defuse the topics you're afraid to bring up",
-    desc: "Holidays, money, the future. Let your agents debate first. Much easier.",
-  },
-  {
-    tag: 'At work',
-    title: "Explore disagreements without team friction",
-    desc: "Strategy, organization, decisions. Test positions before the real meeting.",
-  },
-  {
-    tag: 'On social media',
-    title: "Share your agent and spark public debates",
-    desc: "Post your link, let anyone challenge your agent. See what others truly think.",
-  },
-]
-
-const STEPS = [
-  {
-    n: '01',
-    title: "Create your agent",
-    desc: "Answer 6 questions about your personality, values, and style. Your agent is built in your image.",
-  },
-  {
-    n: '02',
-    title: "Pick an opponent",
-    desc: "Select another person's agent or a profile available on the platform.",
-  },
-  {
-    n: '03',
-    title: "Ask your question",
-    desc: "Write any topic. Both agents debate automatically. You read, you discover.",
-  },
-]
-
-const CYCLE = 6000 // ms — durée totale avant de relancer la boucle
+const CYCLE = 6000
 
 export default function Landing() {
+  const { locale } = useRouter()
+  const t = T[locale] ?? T.en
   const [cycle, setCycle] = useState(0)
 
   useEffect(() => {
-    const t = setInterval(() => setCycle(c => c + 1), CYCLE)
-    return () => clearInterval(t)
+    const timer = setInterval(() => setCycle(c => c + 1), CYCLE)
+    return () => clearInterval(timer)
   }, [])
+
+  const otherLocale = locale === 'fr' ? 'en' : 'fr'
 
   return (
     <>
       <Head>
-        <title>PeopleView — Know what others really think</title>
+        <title>{t.title}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Create your AI agent, pick an opponent, and discover what people really think without having to ask them." />
+        <meta name="description" content={t.metaDesc} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet" />
@@ -100,7 +120,12 @@ export default function Landing() {
               <div className="logo-mark" />
               <span>PEOPLEVIEW</span>
             </div>
-            <Link href="https://peopleview-chi.vercel.app/" className="btn-nav">Create my agent <span>→</span></Link>
+            <div className="header-right">
+              <Link href="/" locale={otherLocale} className="btn-lang">
+                {otherLocale.toUpperCase()}
+              </Link>
+              <Link href="https://peopleview-chi.vercel.app/" className="btn-nav">{t.navCta} <span>→</span></Link>
+            </div>
           </div>
         </header>
 
@@ -108,25 +133,23 @@ export default function Landing() {
         <section className="hero">
           <div className="hero-inner">
             <div className="hero-text">
-              <div className="hero-eyebrow">AI agent debates</div>
+              <div className="hero-eyebrow">{t.eyebrow}</div>
               <h1 className="hero-title">
-                Know what others<br className="br-d" /> really think.<br />
-                <em>Without having to ask.</em>
+                {t.heroTitle1}<br className="br-d" /> {t.heroTitle2}<br />
+                <em>{t.heroEm}</em>
               </h1>
-              <p className="hero-desc">
-                Each person creates an AI agent that reflects who they are. Two agents debate automatically on any topic. The result: honest opinions, with no social filter.
-              </p>
+              <p className="hero-desc">{t.heroDesc}</p>
               <div className="hero-actions">
-                <Link href="https://peopleview-chi.vercel.app/" className="btn-primary">Create my agent <span>→</span></Link>
-                <a href="#how" className="btn-text">See how it works <span>→</span></a>
+                <Link href="https://peopleview-chi.vercel.app/" className="btn-primary">{t.heroCta} <span>→</span></Link>
+                <a href="#how" className="btn-text">{t.heroHow} <span>→</span></a>
               </div>
             </div>
 
             {/* DEBATE PREVIEW */}
             <div className="debate-card">
               <div className="debate-header">
-                <div className="debate-topic-label">Debate topic</div>
-                <div className="debate-topic">Should you live together before getting married?</div>
+                <div className="debate-topic-label">{t.debateLabel}</div>
+                <div className="debate-topic">{t.debateTopic}</div>
                 <div className="debate-participants">
                   <div className="dp-left">
                     <div className="dp-ava dp-ava-a">LM</div>
@@ -139,8 +162,8 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
-              <div className="debate-body" key={cycle}>
-                {DEBATE_TURNS.map((turn, i) => (
+              <div className="debate-body" key={`${cycle}-${locale}`}>
+                {t.debateTurns.map((turn, i) => (
                   <div
                     key={i}
                     className={`turn turn-${turn.side}`}
@@ -164,11 +187,11 @@ export default function Landing() {
         <section className="usecases">
           <div className="section-inner">
             <div className="section-header">
-              <div className="section-eyebrow">What it&apos;s for</div>
-              <h2 className="section-title">Four ways to use it</h2>
+              <div className="section-eyebrow">{t.usecasesEyebrow}</div>
+              <h2 className="section-title">{t.usecasesTitle}</h2>
             </div>
             <div className="uc-grid">
-              {USE_CASES.map((uc, i) => (
+              {t.usecases.map((uc, i) => (
                 <div key={i} className="uc-card">
                   <div className="uc-tag">{uc.tag}</div>
                   <div className="uc-title">{uc.title}</div>
@@ -183,11 +206,11 @@ export default function Landing() {
         <section className="how" id="how">
           <div className="section-inner">
             <div className="section-header">
-              <div className="section-eyebrow">How it works</div>
-              <h2 className="section-title">Simple. Fast. Revealing.</h2>
+              <div className="section-eyebrow">{t.howEyebrow}</div>
+              <h2 className="section-title">{t.howTitle}</h2>
             </div>
             <div className="steps">
-              {STEPS.map((s, i) => (
+              {t.steps.map((s) => (
                 <div key={s.n} className="step">
                   <div className="step-connector" />
                   <div className="step-num">{s.n}</div>
@@ -204,10 +227,10 @@ export default function Landing() {
         {/* FINAL CTA */}
         <section className="cta-section">
           <div className="cta-inner">
-            <div className="cta-tag">Ready to start?</div>
-            <h2 className="cta-title">Create your agent.<br />Start your first debate.</h2>
-            <p className="cta-desc">It takes 2 minutes. Be honest in the questionnaire — that&apos;s what makes the results real.</p>
-            <Link href="https://peopleview-chi.vercel.app/" className="btn-cta">Create my agent now</Link>
+            <div className="cta-tag">{t.ctaTag}</div>
+            <h2 className="cta-title">{t.ctaTitle1}<br />{t.ctaTitle2}</h2>
+            <p className="cta-desc">{t.ctaDesc}</p>
+            <Link href="https://peopleview-chi.vercel.app/" className="btn-cta">{t.ctaBtn}</Link>
           </div>
         </section>
 
@@ -267,6 +290,16 @@ export default function Landing() {
         }
         .logo-mark { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
         .logo-mark-sm { width: 6px; height: 6px; }
+        .header-right { display: flex; align-items: center; gap: 10px; }
+        .btn-lang {
+          font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+          color: var(--text-muted); text-decoration: none;
+          padding: 6px 12px; border-radius: 100px;
+          border: 1px solid var(--border);
+          letter-spacing: .06em;
+          transition: color .2s, border-color .2s;
+        }
+        .btn-lang:hover { color: var(--text); border-color: rgba(26,26,26,.25); }
         .btn-nav {
           font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
           color: #fff; text-decoration: none;
