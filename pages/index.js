@@ -320,7 +320,7 @@ export default function Landing() {
 
         .debate-card {
           background: #fff; border: 1px solid var(--border); border-radius: 18px;
-          overflow: hidden; height: 480px; display: flex; flex-direction: column;
+          overflow: hidden; height: 560px; display: flex; flex-direction: column;
           box-shadow: 0 4px 32px rgba(26,26,26,.07), 0 1px 4px rgba(26,26,26,.05);
           flex-shrink: 0;
         }
