@@ -100,7 +100,7 @@ export default function Landing() {
               <div className="logo-mark" />
               <span>PEOPLEVIEW</span>
             </div>
-            <Link href="/app" className="btn-nav">Créer mon agent <span>→</span></Link>
+            <Link href="https://peopleview-chi.vercel.app/" className="btn-nav">Créer mon agent <span>→</span></Link>
           </div>
         </header>
 
@@ -117,7 +117,7 @@ export default function Landing() {
                 Chaque personne crée un agent IA qui lui ressemble. Deux agents débattent automatiquement sur n&apos;importe quel sujet. Le résultat : des opinions honnêtes, sans filtre social.
               </p>
               <div className="hero-actions">
-                <Link href="/app" className="btn-primary">Créer mon agent <span>→</span></Link>
+                <Link href="https://peopleview-chi.vercel.app/" className="btn-primary">Créer mon agent <span>→</span></Link>
                 <a href="#how" className="btn-text">Voir comment ça marche <span>→</span></a>
               </div>
             </div>
@@ -207,7 +207,7 @@ export default function Landing() {
             <div className="cta-tag">Prêt à commencer ?</div>
             <h2 className="cta-title">Crée ton agent.<br />Lance ton premier débat.</h2>
             <p className="cta-desc">Ça prend 2 minutes. Sois honnête dans le questionnaire — c&apos;est ça qui rend les résultats vrais.</p>
-            <Link href="/app" className="btn-cta">Créer mon agent maintenant</Link>
+            <Link href="https://peopleview-chi.vercel.app/" className="btn-cta">Créer mon agent maintenant</Link>
           </div>
         </section>
 
