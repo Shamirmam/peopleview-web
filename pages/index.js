@@ -278,13 +278,15 @@ export default function Landing() {
 
         .header {
           position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+          height: 64px;
           background: rgba(250,248,244,.88);
           backdrop-filter: blur(16px);
           border-bottom: 1px solid var(--border);
+          display: flex; align-items: center;
         }
         .header-inner {
-          max-width: 1160px; margin: 0 auto;
-          padding: 0 2rem; height: 64px;
+          width: 100%; max-width: 1160px; margin: 0 auto;
+          padding: 0 2rem; height: 100%;
           display: flex; align-items: center; justify-content: space-between;
         }
         .logo {
@@ -292,7 +294,7 @@ export default function Landing() {
           font-size: 1.05rem; letter-spacing: .08em;
           display: flex; align-items: center; gap: 10px;
           color: var(--text); text-decoration: none;
-          align-self: center;
+          margin: auto 0;
         }
         .logo-mark { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
         .logo-mark-sm { width: 7px; height: 7px; }
