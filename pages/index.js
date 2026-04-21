@@ -44,6 +44,11 @@ const T = {
       { name: 'Léa', initials: 'LM', side: 'left', text: "But if we never try, we'll never know if we're truly compatible. That's the real test." },
       { name: 'Marc', initials: 'MR', side: 'right', text: "The real test is time, not forced proximity. Keeping a healthy distance is a sign of maturity." },
     ],
+    debateSynthesis: {
+      label: 'Summary',
+      lea: 'Living together is the best way to test compatibility and build a future together.',
+      marc: 'Maintaining separate spaces preserves the relationship and shows emotional maturity.',
+    },
   },
   fr: {
     title: 'PeopleView — Sache ce que les autres pensent vraiment',
@@ -85,10 +90,15 @@ const T = {
       { name: 'Léa', initials: 'LM', side: 'left', text: "Mais si on ne teste pas, on ne saura jamais si on est vraiment compatibles. C'est ça le vrai test." },
       { name: 'Marc', initials: 'MR', side: 'right', text: "Le vrai test c'est la durée, pas la proximité forcée. Garder une distance saine, c'est de la maturité." },
     ],
+    debateSynthesis: {
+      label: 'Synthèse',
+      lea: 'Vivre ensemble est la meilleure façon de tester la compatibilité et construire un avenir commun.',
+      marc: 'Garder des espaces séparés préserve la relation et témoigne d'une maturité émotionnelle.',
+    },
   },
 }
 
-const CYCLE = 13000
+const CYCLE = 15000
 
 export default function Landing() {
   const { locale } = useRouter()
@@ -211,6 +221,20 @@ export default function Landing() {
                     </div>
                   )
                 })}
+
+                <div className="debate-synthesis" style={{ animationDelay: '10.5s' }}>
+                  <div className="synthesis-label">{t.debateSynthesis.label}</div>
+                  <div className="synthesis-positions">
+                    <div className="synthesis-position">
+                      <div className="synthesis-name">Léa</div>
+                      <div className="synthesis-text">{t.debateSynthesis.lea}</div>
+                    </div>
+                    <div className="synthesis-position">
+                      <div className="synthesis-name">Marc</div>
+                      <div className="synthesis-text">{t.debateSynthesis.marc}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -410,7 +434,7 @@ export default function Landing() {
 
         .debate-card {
           background: #fff; border: 1px solid var(--border); border-radius: 18px;
-          overflow: hidden; height: 640px; display: flex; flex-direction: column;
+          overflow: hidden; height: 700px; display: flex; flex-direction: column;
           box-shadow: 0 4px 32px rgba(26,26,26,.07), 0 1px 4px rgba(26,26,26,.05);
           flex-shrink: 0;
         }
@@ -489,6 +513,40 @@ export default function Landing() {
         @keyframes dotBounce {
           0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
           30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        .debate-synthesis {
+          background: linear-gradient(135deg, rgba(45,206,137,.04) 0%, rgba(77,166,255,.04) 100%);
+          border: 1px solid rgba(45,206,137,.15);
+          border-radius: 12px;
+          padding: 14px 16px;
+          margin-top: 8px;
+          opacity: 0;
+          animation: synthesisIn .5s ease forwards;
+        }
+        @keyframes synthesisIn {
+          from { opacity: 0; transform: translateY(12px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .synthesis-label {
+          font-size: 9px; font-weight: 700; letter-spacing: .14em;
+          text-transform: uppercase; color: #2dce89;
+          margin-bottom: 10px;
+        }
+        .synthesis-positions {
+          display: flex; flex-direction: column; gap: 10px;
+        }
+        .synthesis-position {
+          display: flex; gap: 8px;
+        }
+        .synthesis-name {
+          font-size: 11px; font-weight: 700;
+          color: var(--text); flex-shrink: 0;
+          min-width: 40px;
+        }
+        .synthesis-text {
+          font-size: 12px; line-height: 1.6;
+          color: var(--text-muted);
         }
 
         .usecases { padding: 6rem 2rem; background: #f2efe9; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
