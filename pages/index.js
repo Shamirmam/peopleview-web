@@ -88,7 +88,7 @@ const T = {
   },
 }
 
-const CYCLE = 6000
+const CYCLE = 13000
 
 export default function Landing() {
   const { locale } = useRouter()
@@ -178,7 +178,7 @@ export default function Landing() {
               </div>
               <div className="debate-body" key={`${cycle}-${locale}`}>
                 {t.debateTurns.map((turn, i) => {
-                  const baseDelay = 0.3 + i * 1.8
+                  const baseDelay = 0.3 + i * 2.7
                   return (
                     <div key={i}>
                       <div
@@ -410,7 +410,7 @@ export default function Landing() {
 
         .debate-card {
           background: #fff; border: 1px solid var(--border); border-radius: 18px;
-          overflow: hidden; height: 560px; display: flex; flex-direction: column;
+          overflow: hidden; height: 640px; display: flex; flex-direction: column;
           box-shadow: 0 4px 32px rgba(26,26,26,.07), 0 1px 4px rgba(26,26,26,.05);
           flex-shrink: 0;
         }
