@@ -93,7 +93,7 @@ const T = {
     debateSynthesis: {
       label: 'Synthèse',
       lea: 'Vivre ensemble est la meilleure façon de tester la compatibilité et construire un avenir commun.',
-      marc: 'Garder des espaces séparés préserve la relation et témoigne d'une maturité émotionnelle.',
+      marc: 'Garder des espaces séparés préserve la relation et témoigne d\'une maturité émotionnelle.',
     },
   },
 }
