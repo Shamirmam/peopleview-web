@@ -177,21 +177,40 @@ export default function Landing() {
                 </div>
               </div>
               <div className="debate-body" key={`${cycle}-${locale}`}>
-                {t.debateTurns.map((turn, i) => (
-                  <div
-                    key={i}
-                    className={`turn turn-${turn.side}`}
-                    style={{ animationDelay: `${0.3 + i * 0.9}s` }}
-                  >
-                    <div className={`turn-ava turn-ava-${turn.side === 'left' ? 'a' : 'b'}`}>
-                      {turn.initials}
+                {t.debateTurns.map((turn, i) => {
+                  const baseDelay = 0.3 + i * 0.9
+                  return (
+                    <div key={i}>
+                      <div
+                        className={`typing-indicator typing-${turn.side}`}
+                        style={{
+                          animationDelay: `${baseDelay}s`
+                        }}
+                      >
+                        <div className={`typing-ava typing-ava-${turn.side === 'left' ? 'a' : 'b'}`}>
+                          {turn.initials}
+                        </div>
+                        <div className="typing-dots">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </div>
+                      <div
+                        className={`turn turn-${turn.side}`}
+                        style={{ animationDelay: `${baseDelay + 0.85}s` }}
+                      >
+                        <div className={`turn-ava turn-ava-${turn.side === 'left' ? 'a' : 'b'}`}>
+                          {turn.initials}
+                        </div>
+                        <div className="turn-content">
+                          <div className="turn-name">{turn.name}</div>
+                          <div className={`turn-bubble turn-bubble-${turn.side}`}>{turn.text}</div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="turn-content">
-                      <div className="turn-name">{turn.name}</div>
-                      <div className={`turn-bubble turn-bubble-${turn.side}`}>{turn.text}</div>
-                    </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           </div>
@@ -428,6 +447,49 @@ export default function Landing() {
         .turn-bubble { font-size: 13px; line-height: 1.65; padding: 10px 13px; border-radius: 3px 11px 11px 11px; }
         .turn-bubble-left { background: var(--bg-card); border: 1px solid var(--border); color: var(--text); }
         .turn-bubble-right { background: rgba(255,77,28,.07); border: 1px solid rgba(255,77,28,.15); color: #3a1a10; border-radius: 11px 3px 11px 11px; }
+
+        .typing-indicator {
+          display: flex; gap: 9px; align-items: flex-start;
+          opacity: 0;
+          animation: typingLifecycle 0.85s ease forwards;
+        }
+        @keyframes typingLifecycle {
+          0% { opacity: 0; height: auto; }
+          10% { opacity: 1; height: auto; }
+          90% { opacity: 1; height: auto; }
+          100% { opacity: 0; height: 0; margin: 0; overflow: hidden; }
+        }
+        .typing-right { flex-direction: row-reverse; }
+        .typing-ava {
+          width: 28px; height: 28px; border-radius: 7px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 9px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+        }
+        .typing-ava-a { background: rgba(255,77,28,.1); color: var(--accent); }
+        .typing-ava-b { background: rgba(26,26,26,.07); color: var(--text); }
+        .typing-dots {
+          background: var(--bg-card); border: 1px solid var(--border);
+          border-radius: 3px 11px 11px 11px;
+          padding: 10px 16px;
+          display: flex; gap: 4px; align-items: center;
+        }
+        .typing-right .typing-dots {
+          background: rgba(255,77,28,.07);
+          border: 1px solid rgba(255,77,28,.15);
+          border-radius: 11px 3px 11px 11px;
+        }
+        .typing-dots span {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: var(--text-muted);
+          animation: dotBounce 1.4s infinite ease-in-out;
+        }
+        .typing-dots span:nth-child(1) { animation-delay: 0s; }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes dotBounce {
+          0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+          30% { transform: translateY(-6px); opacity: 1; }
+        }
 
         .usecases { padding: 6rem 2rem; background: #f2efe9; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
         .section-inner { max-width: 1160px; margin: 0 auto; }
