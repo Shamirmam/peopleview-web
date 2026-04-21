@@ -3,9 +3,9 @@ import { useState } from 'react'
 
 const SEED_AGENTS = [
   {
-    id: 'seed1', name: 'Thomas D.', age: 34, city: 'Lyon', passion: 'Entrepreneuriat',
-    decision: 8, risk: 9, comm: ['Direct', 'Provocateur'],
-    vision: "Le confort est l'ennemi du progrès. Si tu n'es pas mal à l'aise, tu n'avances pas.",
+    id: 'seed1', name: 'Shamir M.', age: 28, city: 'Paris', passion: 'Sciences, Business, Tech, Mode, Entrepreneuriat',
+    decision: 8, risk: 5, comm: ['Diplomate', 'Analytique'],
+    vision: "Il faut toujours donner le meilleur de soi-même — pas pour les autres, mais parce que c'est la seule façon de vivre une vie dont on est fier.",
     color: { bg: 'rgba(45,206,137,.1)', text: '#2dce89' },
   },
   {
