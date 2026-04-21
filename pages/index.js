@@ -292,6 +292,7 @@ export default function Landing() {
           font-size: 1.05rem; letter-spacing: .08em;
           display: flex; align-items: center; gap: 10px;
           color: var(--text); text-decoration: none;
+          align-self: center;
         }
         .logo-mark { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
         .logo-mark-sm { width: 7px; height: 7px; }
