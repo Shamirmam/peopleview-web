@@ -117,20 +117,6 @@ export default function Landing() {
     return () => clearInterval(timer)
   }, [])
 
-  useEffect(() => {
-    if (debateBodyRef.current) {
-      const scrollInterval = setInterval(() => {
-        if (debateBodyRef.current) {
-          debateBodyRef.current.scrollTo({
-            top: debateBodyRef.current.scrollHeight,
-            behavior: 'smooth'
-          })
-        }
-      }, 1500)
-      return () => clearInterval(scrollInterval)
-    }
-  }, [cycle])
-
   return (
     <>
       <Head>
