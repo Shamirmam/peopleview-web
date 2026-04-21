@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 const T = {
   en: {
@@ -105,6 +105,7 @@ export default function Landing() {
   const t = T[locale] ?? T.en
   const [cycle, setCycle] = useState(0)
   const [wordIdx, setWordIdx] = useState(0)
+  const debateBodyRef = useRef(null)
 
   useEffect(() => {
     const timer = setInterval(() => setCycle(c => c + 1), CYCLE)
@@ -115,6 +116,20 @@ export default function Landing() {
     const timer = setInterval(() => setWordIdx(i => (i + 1) % 3), 2000)
     return () => clearInterval(timer)
   }, [])
+
+  useEffect(() => {
+    if (debateBodyRef.current) {
+      const scrollInterval = setInterval(() => {
+        if (debateBodyRef.current) {
+          debateBodyRef.current.scrollTo({
+            top: debateBodyRef.current.scrollHeight,
+            behavior: 'smooth'
+          })
+        }
+      }, 1500)
+      return () => clearInterval(scrollInterval)
+    }
+  }, [cycle])
 
   return (
     <>
@@ -186,7 +201,7 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
-              <div className="debate-body" key={`${cycle}-${locale}`}>
+              <div className="debate-body" ref={debateBodyRef} key={`${cycle}-${locale}`}>
                 {t.debateTurns.map((turn, i) => {
                   const baseDelay = 0.3 + i * 2.7
                   return (
@@ -456,7 +471,12 @@ export default function Landing() {
         .debate-body {
           padding: 1.25rem 1.5rem; flex: 1;
           overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
+          scroll-behavior: smooth;
         }
+        .debate-body::-webkit-scrollbar { width: 4px; }
+        .debate-body::-webkit-scrollbar-track { background: transparent; }
+        .debate-body::-webkit-scrollbar-thumb { background: rgba(26,26,26,.1); border-radius: 2px; }
+        .debate-body::-webkit-scrollbar-thumb:hover { background: rgba(26,26,26,.2); }
 
         @keyframes turnIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .turn {
